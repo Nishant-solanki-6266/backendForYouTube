@@ -1,5 +1,5 @@
  const asyncHandler=(requestHandler)=>{
-    (req,res,next)=>{
+   return (req,res,next)=>{   // yha return isliye lagaya ki := vapis value return ya promise jo bhi, result hai return bhi to kro
         Promise.resolve(requestHandler(req,res,next)).catch((err)=>next(err))
     }
  }

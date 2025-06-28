@@ -15,7 +15,7 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         lowercase: true,
-        trim: true
+        trim: true     // white space ko remove kr dega database ne save krte time
     },
     fullname: {
         type: String,
@@ -47,7 +47,7 @@ const userSchema = new Schema({
 
 userSchema.pre("save", async function (next) {  // ese bolte :-- sbkuch phli bar save hua mtlb password bhi modidied hua to condition kr degi false or password ho jayega encrypt, dusri bar me sbkuch save(kuch update kiya) hua but password nhi hua modified to condition ke degi true to next ho jayega
     if (!this.isModified("password")) return next();   // yha ese currely bracket me likhakr check krna
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next();
 })
 
@@ -71,7 +71,7 @@ userSchema.methods.generateAccessToken = function () {
 }
 
 userSchema.methods.generateRefreshToken=function(){
-    jwt.sign(
+   return  jwt.sign(
         {
             _id:this._id,
         },
