@@ -6,6 +6,7 @@ cloudinary.config({
     api_key:process.env.CLOUD_API_KEY,
     api_secret:process.env.CLOUD_API_SECRET
 })
+console.log(process.env.CLOUD_NAME);
 
 const uploadOnCloudinary=async(localFilePath)=>{
     try {
@@ -13,8 +14,9 @@ const uploadOnCloudinary=async(localFilePath)=>{
       const responce= await cloudinary.uploader.upload(localFilePath,{
             resource_type:"auto"
         })
-        console.log("localFilePath Uploded:-",responce.url);
-         return responce;  // yha se clodinary ka url milega publically url
+        // console.log("localFilePath Uploded:-",responce.url);
+            fs.unlinkSync(localFilePath)   // to yha se temp se file remove hogi dekha meene aai thi yeh code likhne ke phele
+          return responce;  // yha se clodinary ka url milega publically url
 
     } catch (error) {
         fs.unlinkSync(localFilePath); // error aane ke bad bhi jo hmari public me data rhega usko dilate kr dega
